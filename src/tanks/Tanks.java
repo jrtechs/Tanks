@@ -6,9 +6,26 @@ package tanks;
  */
 public class Tanks 
 {
-    public static void main(String[] arguments) 
+    
+    private class Player extends RotationalElement
+    {
+        
+    }
+    private abstract class Enemy extends RotationalElement
+    {
+        
+    }
+    private class Zombie extends Enemy
+    {
+        
+    }
+    private class Bullet extends RotationalElement
     {
         
     }
     
+    public static void main(String[] arguments) 
+    {
+        
+    }
 }
