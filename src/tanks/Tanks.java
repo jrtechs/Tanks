@@ -26,8 +26,9 @@ public class Tanks
         
     }
     
+    //creates a new instance of tanks to run
     public static void main(String[] arguments) 
     {
-        
+        Tanks runnable = new Tanks();
     }
 }
