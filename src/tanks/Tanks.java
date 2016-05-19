@@ -8,7 +8,11 @@ package tanks;
  */
 public class Tanks 
 {
-    
+    //constructor
+    public Tanks()
+    {
+        
+    }
     private class Player extends RotationalElement
     {
         
