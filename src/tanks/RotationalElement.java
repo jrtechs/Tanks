@@ -1,8 +1,11 @@
 package tanks;
 
-/*
-class that provides functionality for any object in the game that moves at an angle
-*/
+/**
+ * 
+ * Set 3 class project
+ * 5-19-16
+ * 
+ */
 public class RotationalElement 
 {
     
