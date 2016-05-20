@@ -1,5 +1,8 @@
 package tanks;
 
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 /**
  * 
  * Set 3 class project
