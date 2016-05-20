@@ -8,6 +8,11 @@ package tanks;
  */
 public class Tanks 
 {
+    //fields
+    private JFrame f;
+    private JPanel panel;
+    private int kills;
+    
     //constructor
     public Tanks()
     {
