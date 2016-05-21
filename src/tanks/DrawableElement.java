@@ -21,13 +21,13 @@ public abstract class DrawableElement
     public BufferedImage img;
     
     //draws img onto the screen
-    public void Draw(Graphics g)
+    public void draw(Graphics g)
     {
         g.drawImage(img, x, y, null);
     }
     
     //loads the image from the disk into the Buffered image img
-    public void LoadImage()
+    public void loadImage()
     {
         img = null;
         try
