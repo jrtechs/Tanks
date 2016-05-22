@@ -17,6 +17,9 @@ public abstract class RotationalElement extends GameElement
     //0-360 angle which determines which direction the object is facing
     public double direction;
     
+    //integer which defines how fast a object will move
+    public int speed;
+    
     //convertes degrease to radians
     public double degToRad()
     {
@@ -32,14 +35,13 @@ public abstract class RotationalElement extends GameElement
     /*
         moves the object's x and y according to its degrees
         the multiplier is used to move at a specific speed
-        a positive multiplier moves the object backwards
-        a negative multiplier moves the object forwards
+        a positive multiplier(1) moves the object backwards
+        a negative multiplier(-1) moves the object forwards
     */
-    
     public void move(int multiplier)
     {
-        y += Math.sin(degToRad()) * multiplier;
-        x += Math.cos(degToRad()) * multiplier;
+        y += Math.sin(degToRad()) * multiplier * speed;
+        x += Math.cos(degToRad()) * multiplier * speed;
     }
     
     /*
@@ -57,6 +59,7 @@ public abstract class RotationalElement extends GameElement
         //draws the rotated image on the panel
         ((Graphics2D)(g)).drawImage(img, tf, null);
     }
+    
     /*
         Sets the area variable shape in GameElement to be used in collision code
     */
