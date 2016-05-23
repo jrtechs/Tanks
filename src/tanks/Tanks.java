@@ -9,12 +9,14 @@ package tanks;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import java.util.ArrayList;
 
 public class Tanks 
 {
     //fields
     private JFrame frame;
     private JPanel panel;
+    private ArrayList<Bullet> bullets;
     
     //constructor
     public Tanks()
@@ -73,6 +75,33 @@ public class Tanks
     */
     private class Bullet extends RotationalElement
     {
+        
+        public Bullet(RotationalElement e)
+        {
+            x = e.x; //Change this coordinate to the player's location
+            y = e.y; //Change this coordinate to the player's location
+            direction = e.direction; //Change this coordinate to the player turret's angle
+            speed = 10;
+        }
+
+        //Moving the bullet
+        public void move()
+        {
+            super.move(-1);
+            
+            //Checks if the bullet goes off screen, if so... it get removed
+            if(x < 0 || x > frame.getHeight())
+            {
+                bullets.remove(this); //Jeff does this work?
+            }
+            if (y < 0 || y > frame.getWidth())
+            {
+                bullets.remove(this); //"                  "
+            }
+        }
+        
+        
+        
         
     }
     
