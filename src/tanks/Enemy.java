@@ -2,6 +2,7 @@
     super class for any enemy in the game
     a enemy can spawn at a random location along the border of the map
     a enemy can also calculate the distance and angle to the player
+    5-23-16
 */
 package tanks;
 
@@ -10,7 +11,7 @@ import javax.swing.JFrame;
 
 public class Enemy extends Living
 {
-    public Enemy
+    public Enemy()
     {
         super();        
     }
@@ -23,7 +24,7 @@ public class Enemy extends Living
     */
     public void spawn(JFrame frame)
     {
-        int temp=(int)(Math.random()*(5));
+        int temp=(int)(Math.random()*(4)) + 1;
         if(temp==1)
         {
             y=0;
@@ -39,7 +40,7 @@ public class Enemy extends Living
             y=frame.getHeight();
             x=(int)(Math.random()*(frame.getWidth()+1));
         }
-        else if(temp==4)
+        else
         {
             x=0;
             y=(int)(Math.random()*(frame.getHeight()+1));
@@ -51,11 +52,11 @@ public class Enemy extends Living
     Used right triangle algebra to determine distance from x,y of enemy 
     to x,y of player.
     */
-    public double distToPlayer(Player p)
+    public double distToPlayer(RotationalElement p)
     {
         double d, a, b;
-        a=Math.abs(x-p.getX());
-        b=Math.abs(y-p.getY());
+        a=Math.abs(x-p.x);
+        b=Math.abs(y-p.y);
         d=Math.sqrt(a*a+b*b);
         return(d);
     }
@@ -65,12 +66,13 @@ public class Enemy extends Living
     Found lengths of imaginary triangle between player and enemy. 
     Then used inverse trig to determine angle.
     */
-    public double angleToPlayer(Player p)
+    public double angleToPlayer(RotationalElement p)
     {
         double a, b, ang;
-        a=Math.abs(x-p.getX());
-        b=Math.abs(y-p.getY());
-        ang=Math.atan(b/a);
+        a=(x-p.x); //doesnt have to me absolute value since using atan2
+        b=(y-p.y);
+        ang=Math.atan2(b,a); //atan2 prevents divisible by zero errors
+        ang = Math.toDegrees(ang);
         return(ang);
     }
 }
