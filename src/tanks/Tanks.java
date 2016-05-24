@@ -16,7 +16,11 @@ public class Tanks
     //fields
     private JFrame frame;
     private JPanel panel;
+    
+    //game elements
     private ArrayList<Bullet> bullets;
+    private Player p;
+    private ArrayList<Enemy> enemy;
     
     //constructor
     public Tanks()
@@ -76,8 +80,12 @@ public class Tanks
     private class Bullet extends RotationalElement
     {
         
+        public boolean enemyBullet; // whether it is an enemy or player bullet
+        
         public Bullet(RotationalElement e)
         {
+            width = 25;
+            height = 25;
             x = e.x; //Change this coordinate to the player's location
             y = e.y; //Change this coordinate to the player's location
             direction = e.direction; //Change this coordinate to the player turret's angle
@@ -98,11 +106,11 @@ public class Tanks
             {
                 bullets.remove(this); //"                  "
             }
+            
+            //checks for collision for with enemies
+            
         }
-        
-        
-        
-        
+          
     }
     
     /*
