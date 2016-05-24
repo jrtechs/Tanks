@@ -25,7 +25,7 @@ public class Tanks
     //constructor
     public Tanks()
     {
-        
+        System.out.println("Mrs. Shaw test");
     }
     
     //creates a new instance of tanks to run
