@@ -7,9 +7,10 @@
 
 package tanks;
 
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import java.util.ArrayList;
 
 public class Tanks 
 {
@@ -52,6 +53,20 @@ public class Tanks
     */
     private class Player extends Living
     {
+        Turret t;
+        
+        void move()
+        {
+            
+        }
+        void updateDir(KeyEvent e)
+        {
+            
+        }
+        void shoot()
+        {
+            
+        }
         
     }
     
