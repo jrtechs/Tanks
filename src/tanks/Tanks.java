@@ -81,7 +81,16 @@ public class Tanks
     */
     private class Zombie extends Enemy
     {
-        
+        public void move()
+        {
+            direction = angleToPlayer(p);
+            super.move(-1);
+            if(this.checkCollision(p))
+            {
+                enemy.remove(this);
+                p.takeDamage();
+            }
+        }
     }
     
     
