@@ -81,6 +81,19 @@ public class Tanks
     */
     private class Zombie extends Enemy
     {
+        //constructor instanciated fields
+        public Zombie()
+        {
+            super();
+            this.spawn(frame);
+            width = 30;
+            height = 30;
+            this.setShape();
+            health = 10;
+            isAlive=true;
+        }
+        //uses super to move player if collision then removes zombie and player
+        //takes damage
         public void move()
         {
             direction = angleToPlayer(p);
