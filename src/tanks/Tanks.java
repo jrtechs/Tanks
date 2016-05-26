@@ -301,4 +301,51 @@ public class Tanks
         
     }
 
+     private class Wave extends DrawableElement
+    {
+        /*fields time is continous while playing, gameMode(1=playing, 
+        2=paused, 3=menu. spawntime keeps a countdown until next spawn,
+        kills keeps track of kills duh.
+        */
+        int time, kills, gameMode, waveNum;
+        Timer spawn;
+        
+        //constuctor
+        public Wave()
+        {
+            time=0;
+            kills=0;
+            gameMode=1;
+            waveNum=1;
+            
+            ActionListener s = new ActionListener()
+            {
+
+                @Override
+                public void actionPerformed(ActionEvent e) 
+                {
+                    spawn();
+                }
+                
+            };
+            spawn = new Timer(2000,s);
+            spawn.start();
+            
+        }
+        
+        
+        //spawn method checks if spawn timer ==0 and if so then spawns an 
+        //enemy
+        public void spawn()
+        {
+
+                Enemy temp = new Enemy();
+                temp.spawn(frame);
+                enemy.add(temp);
+            
+        }
+        
+        
+        //timer
+    }
 }
