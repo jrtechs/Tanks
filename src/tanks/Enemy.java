@@ -9,13 +9,14 @@ package tanks;
 import javax.swing.JFrame;
 
 
-public class Enemy extends Living
+public abstract class Enemy extends Living
 {
     public Enemy()
     {
         super();        
     }
     
+    public abstract void move();
     
    /*
     enemy spawns at a random location on boarder of map. Random number 1-4 
