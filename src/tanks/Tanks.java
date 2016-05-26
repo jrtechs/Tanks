@@ -123,9 +123,9 @@ public class Tanks
         {
             width = 25;
             height = 25;
-            x = e.x; //Change this coordinate to the player's location
-            y = e.y; //Change this coordinate to the player's location
-            direction = e.direction; //Change this coordinate to the player turret's angle
+            x = e.x;
+            y = e.y;
+            direction = e.direction;
             speed = 10;
         }
 
@@ -137,15 +137,37 @@ public class Tanks
             //Checks if the bullet goes off screen, if so... it get removed
             if(x < 0 || x > frame.getHeight())
             {
-                bullets.remove(this); //Jeff does this work?
+                bullets.remove(this);
             }
             if (y < 0 || y > frame.getWidth())
             {
-                bullets.remove(this); //"                  "
+                bullets.remove(this);
             }
             
-            //checks for collision for with enemies
+            //Checks for collision with enemies, enemy takes damage and byllet is removed
+            for(int i = 0; i < enemy.size(); i++)
+            {
+                if(enemyBullet == false)
+                {
+                    boolean collided = this.checkCollision(bullets.get(i));
+                    if(collided)
+                    {
+                        enemy.get(i).takeDamage();
+                        bullets.remove(i);
+                    }
+                }
+            }
             
+            //Checking enemy bullet collision with the player, player takes damage and bullet is removed
+            if(enemyBullet)
+            {
+                boolean collided = this.checkCollision(p);
+                if(collided)
+                {
+                    p.takeDamage();
+                    bullets.remove(this);
+                }
+            }
         }
           
     }
