@@ -11,6 +11,7 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -31,6 +32,31 @@ public class Tanks
     //constructor
     public Tanks()
     {
+           
+    
+        frame=new JFrame("Tanks project");
+        frame.setSize(500,500);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        KeyListener key=new KeyListener()
+        {
+            @Override
+            public void keyTyped(KeyEvent e) 
+            {
+            }
+            @Override
+            public void keyPressed(KeyEvent e)
+            {
+                p.updateDir(e, true);
+                panel.repaint();
+            }
+            @Override
+            public void keyReleased(KeyEvent e) {
+                p.updateDir(e, false);
+                panel.repaint();
+            } 
+        };
+        frame.addKeyListener(key);
+    
         System.out.println("Mrs. Shaw test");
         panel = new JPanel()
         {
