@@ -54,18 +54,59 @@ public class Tanks
     private class Player extends Living
     {
         Turret t;
+        boolean up,down,left,right;
         
         void move()
         {
-            
+            if(up==true)
+            {
+                super.move(-1);
+            }
+            else if(down==true)
+            {
+                super.move(1);
+            }
+            else if(left==true)
+            {
+                super.direction +=5;
+            }
+            else if(right==true)
+            {
+                super.direction-=5;
+            }
         }
-        void updateDir(KeyEvent e)
+        void updateDir(KeyEvent e, boolean pressed)
         {
+            int id=e.getKeyCode();
+            if(id== KeyEvent.VK_UP)
+            {
+                up=pressed;
+                move();
+            }
+            else if(id==KeyEvent.VK_DOWN)
+            {
+                down=pressed;
+                move();
+            }
+            else if(id==KeyEvent.VK_LEFT)
+            {
+                left=pressed;
+                move();
+            }
+            else if(id==KeyEvent.VK_RIGHT)
+            {
+                right=pressed;
+                move();
+            }
+            else if(id==KeyEvent.VK_SPACE)
+            {
+                shoot();
+            }
             
         }
         void shoot()
         {
-            
+            bullets.add(new Bullet (this));
         }
         
     }
