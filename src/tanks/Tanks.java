@@ -7,10 +7,14 @@
 
 package tanks;
 
+import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 public class Tanks 
 {
@@ -22,21 +26,57 @@ public class Tanks
     private ArrayList<Bullet> bullets;
     private Player p;
     private ArrayList<Enemy> enemy;
+     Timer move;
     
     //constructor
     public Tanks()
     {
         System.out.println("Mrs. Shaw test");
+        panel = new JPanel()
+        {
+            protected void paintComponent(Graphics g)
+            {
+                //Paint Wave
+                //wave.draw(g);
+                for(Bullet b: bullets)
+                {
+                    b.draw(g);
+                }
+                
+                for(Enemy en: enemy)
+                {
+                    en.draw(g);
+                }
+                
+                p.draw(g);
+            }
+        };
+        frame.add(panel);
+        frame.setVisible(true);
+        
+        //Timer
+        ActionListener tic = new ActionListener()
+        {
+            //Override
+            public void actionPerformed(ActionEvent e)
+            {
+                p.move();
+                for(Bullet b: bullets)
+                {
+                    b.move();
+                }
+                
+                for(Enemy en: enemy)
+                {
+                    en.move();
+                }
+                panel.repaint();
+            }
+        };
+        
+        move = new Timer(30, tic);        //Timer that moves things... Moves the player and enemies?
+        move.start();
     }
-    
-    //creates a new instance of tanks to run
-    public static void main(String[] arguments) 
-    {
-        Tanks runnable = new Tanks();
-    }
-    
-    
-    
     
     
     
@@ -227,6 +267,11 @@ public class Tanks
     */
     private class Tank extends Enemy
     {
+
+        @Override
+        public void move() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
         
     }
 
