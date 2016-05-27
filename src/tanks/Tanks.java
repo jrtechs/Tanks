@@ -23,11 +23,15 @@ public class Tanks
     private JFrame frame;
     private JPanel panel;
     
+    
+    private Timer move;
+    private KeyListener key;
+    
     //game elements
     private ArrayList<Bullet> bullets;
     private Player p;
     private ArrayList<Enemy> enemy;
-     Timer move;
+    private Wave wave;
     
     //constructor
     public Tanks()
@@ -37,7 +41,7 @@ public class Tanks
         frame=new JFrame("Tanks project");
         frame.setSize(500,500);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        KeyListener key=new KeyListener()
+        key=new KeyListener()
         {
             @Override
             public void keyTyped(KeyEvent e) 
@@ -47,17 +51,15 @@ public class Tanks
             public void keyPressed(KeyEvent e)
             {
                 p.updateDir(e, true);
-                panel.repaint();
             }
             @Override
-            public void keyReleased(KeyEvent e) {
+            public void keyReleased(KeyEvent e) 
+            {
                 p.updateDir(e, false);
-                panel.repaint();
             } 
         };
         frame.addKeyListener(key);
     
-        System.out.println("Mrs. Shaw test");
         panel = new JPanel()
         {
             protected void paintComponent(Graphics g)
@@ -195,7 +197,6 @@ public class Tanks
             this.spawn(frame);
             width = 30;
             height = 30;
-            this.setShape();
             health = 10;
             isAlive=true;
         }
@@ -339,7 +340,7 @@ public class Tanks
         public void spawn()
         {
 
-                Enemy temp = new Enemy();
+                Enemy temp = new Zombie();
                 temp.spawn(frame);
                 enemy.add(temp);
             
