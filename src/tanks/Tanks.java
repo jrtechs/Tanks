@@ -7,6 +7,7 @@
 
 package tanks;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -36,11 +37,14 @@ public class Tanks
     //constructor
     public Tanks()
     {
-           
+        
     
         frame=new JFrame("Tanks project");
         frame.setSize(500,500);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        newGame();
+        
         key=new KeyListener()
         {
             @Override
@@ -65,7 +69,7 @@ public class Tanks
             protected void paintComponent(Graphics g)
             {
                 //Paint Wave
-                //wave.draw(g);
+                wave.draw(g);
                 for(Bullet b: bullets)
                 {
                     b.draw(g);
@@ -89,14 +93,29 @@ public class Tanks
             public void actionPerformed(ActionEvent e)
             {
                 p.move();
-                for(Bullet b: bullets)
+                for(int i = 0; i < bullets.size(); i ++)
                 {
-                    b.move();
+                    try
+                    {
+                         bullets.get(i).move();
+                    }
+                    catch(Exception ex)
+                    {
+                        
+                    }
+                   
                 }
                 
-                for(Enemy en: enemy)
+                for(int i = 0; i < enemy.size(); i++)
                 {
-                    en.move();
+                    try
+                    {
+                        enemy.get(i).move();
+                    }
+                    catch(Exception ex)
+                    {
+                        
+                    }
                 }
                 panel.repaint();
             }
@@ -106,6 +125,18 @@ public class Tanks
         move.start();
     }
     
+    void newGame()
+    {
+        bullets = new ArrayList<Bullet>();
+        enemy = new ArrayList<Enemy>();
+        p = new Player();
+        wave = new Wave();
+    }
+    
+    public static void main(String[] arguments)
+    {
+        Tanks game = new Tanks();
+    }
     
     
     /*
@@ -121,8 +152,20 @@ public class Tanks
     */
     private class Player extends Living
     {
-        Turret t;
-        boolean up,down,left,right;
+        private Turret t;
+        private boolean up,down,left,right;
+        
+        public Player()
+        {
+            speed = 5;
+            x = frame.getWidth()/2;
+            y = frame.getHeight()/2;
+            health = 100;
+            this.imageLocation = "player.png";
+            super.loadImage();
+            width = 50;
+            height = 50;
+        }
         
         void move()
         {
@@ -130,17 +173,17 @@ public class Tanks
             {
                 super.move(-1);
             }
-            else if(down==true)
+            if(down==true)
             {
                 super.move(1);
             }
-            else if(left==true)
+            if(left==true)
             {
-                super.direction +=5;
+                super.direction -=5;
             }
-            else if(right==true)
+            if(right==true)
             {
-                super.direction-=5;
+                super.direction+=5;
             }
         }
         void updateDir(KeyEvent e, boolean pressed)
@@ -149,22 +192,18 @@ public class Tanks
             if(id== KeyEvent.VK_UP)
             {
                 up=pressed;
-                move();
             }
             else if(id==KeyEvent.VK_DOWN)
             {
                 down=pressed;
-                move();
             }
             else if(id==KeyEvent.VK_LEFT)
             {
                 left=pressed;
-                move();
             }
             else if(id==KeyEvent.VK_RIGHT)
             {
                 right=pressed;
-                move();
             }
             else if(id==KeyEvent.VK_SPACE)
             {
@@ -199,6 +238,9 @@ public class Tanks
             height = 30;
             health = 10;
             isAlive=true;
+            speed = 3;
+            imageLocation = "player.png";
+            super.loadImage();
         }
         //uses super to move player if collision then removes zombie and player
         //takes damage
@@ -235,6 +277,8 @@ public class Tanks
             y = e.y;
             direction = e.direction;
             speed = 10;
+            imageLocation = "bullet.png";
+            super.loadImage();
         }
 
         //Moving the bullet
@@ -243,11 +287,11 @@ public class Tanks
             super.move(-1);
             
             //Checks if the bullet goes off screen, if so... it get removed
-            if(x < 0 || x > frame.getHeight())
+            if(x < 0 || x > frame.getWidth())
             {
                 bullets.remove(this);
             }
-            if (y < 0 || y > frame.getWidth())
+            if (y < 0 || y > frame.getHeight())
             {
                 bullets.remove(this);
             }
@@ -257,11 +301,15 @@ public class Tanks
             {
                 if(enemyBullet == false)
                 {
-                    boolean collided = this.checkCollision(bullets.get(i));
+                    boolean collided = this.checkCollision(enemy.get(i));
                     if(collided)
                     {
                         enemy.get(i).takeDamage();
-                        bullets.remove(i);
+                        bullets.remove(this);
+                        if(!enemy.get(i).isAlive)
+                        {
+                            enemy.remove(enemy.get(i));
+                        }
                     }
                 }
             }
@@ -332,6 +380,11 @@ public class Tanks
             spawn = new Timer(2000,s);
             spawn.start();
             
+        }
+        public void draw(Graphics g)
+        {
+            g.setColor(Color.yellow);
+            g.fillRect(0, 0, 500, 500);
         }
         
         
