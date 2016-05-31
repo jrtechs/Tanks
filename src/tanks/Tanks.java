@@ -24,7 +24,7 @@ public class Tanks
     private JFrame frame;
     private JPanel panel;
     private int fheight=500;
-    private int fwidth=500;
+    private int fwidth=800;
     
     private Timer move;
     private KeyListener key;
@@ -41,7 +41,7 @@ public class Tanks
         
     
         frame=new JFrame("Tanks project");
-        frame.setSize(500,500);
+        frame.setSize(fwidth,fheight + 150);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         newGame();
@@ -80,7 +80,8 @@ public class Tanks
                 {
                     en.draw(g);
                 }
-                
+                g.setColor(Color.BLACK);
+                g.fillRect(0, fheight, fwidth, 150);    
                 p.draw(g);
             }
         };
@@ -273,6 +274,10 @@ public class Tanks
             {
                 enemy.remove(this);
                 p.takeDamage();
+                if(!p.isAlive)
+                {
+                    wave.setGameMode(2);
+                }
             }
         }
     }
@@ -343,6 +348,10 @@ public class Tanks
                 {
                     p.takeDamage();
                     bullets.remove(this);
+                    if(!p.isAlive)
+                    {
+                        wave.setGameMode(2);
+                    }
                 }
             }
         }
