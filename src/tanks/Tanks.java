@@ -23,8 +23,8 @@ public class Tanks
     //fields
     private JFrame frame;
     private JPanel panel;
-    private int fheight=500;
-    private int fwidth=800;
+    private int fheight=650;
+    private int fwidth=900;
     
     private Timer move;
     private KeyListener key;
@@ -229,7 +229,10 @@ public class Tanks
             }
             else if(id==KeyEvent.VK_SPACE)
             {
-                shoot();
+                if(pressed)
+                {
+                    shoot();
+                }
             }
             
         }
@@ -261,7 +264,7 @@ public class Tanks
             health = 10;
             isAlive=true;
             speed = 3;
-            imageLocation = "player.png";
+            imageLocation = "zombie.png";
             super.loadImage();
         }
         //uses super to move player if collision then removes zombie and player
@@ -397,7 +400,10 @@ public class Tanks
             gameMode=1;
             waveNum=1;
             
-                  //actionlistener calls spawn every 2 seconds
+            imageLocation = "wave.jpg";
+            super.loadImage();
+            
+            //actionlistener calls spawn every 2 seconds
             ActionListener s = new ActionListener()
             {
 
@@ -429,11 +435,6 @@ public class Tanks
         {
             newGameMode=gameMode;
         }
-        public void draw(Graphics g)
-        {
-            g.setColor(Color.yellow);
-            g.fillRect(0, 0, 500, 500);
-        }
         
         
         //spawn method checks if spawn timer ==0 and if so then spawns an 
@@ -441,9 +442,9 @@ public class Tanks
         public void spawn()
         {
 
-                Enemy temp = new Zombie();
-                temp.spawn(frame);
-                enemy.add(temp);
+            Enemy temp = new Zombie();
+            temp.spawn(frame);
+            enemy.add(temp);
             
         }
         

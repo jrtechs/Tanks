@@ -32,12 +32,13 @@ public abstract class DrawableElement
         img = null;
         try
         {
+            System.out.println(imageLocation);
             img = ImageIO.read(getClass().getResourceAsStream(imageLocation));
             //img = ImageIO.read(new File(imageLoc));
         }
         catch(IOException e)
         {
-            System.out.println(e.toString());
+            //System.out.println(e.toString());
         }
     }
 }

@@ -66,8 +66,8 @@ public abstract class RotationalElement extends GameElement
     @Override
     public void setShape() 
     {
-        AffineTransform rotate = AffineTransform.getRotateInstance(degToRad(), x, y);
+        AffineTransform rotate = AffineTransform.getRotateInstance(degToRad(), x + width /2, y + height /2);
         
-        shape = new Area(rotate.createTransformedShape(new Rectangle(x,y,width, height)));
+        shape = new Area(rotate.createTransformedShape(new Rectangle(x,y ,width, height)));
     }
 }
