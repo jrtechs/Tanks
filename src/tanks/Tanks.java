@@ -387,7 +387,7 @@ public class Tanks
         kills keeps track of kills duh.
         */
         int time, kills, gameMode, waveNum;
-        Timer spawn;
+        Timer spawn, tim;
         
         //constuctor
         public Wave()
@@ -397,8 +397,10 @@ public class Tanks
             gameMode=1;
             waveNum=1;
             
+                  //actionlistener calls spawn every 2 seconds
             ActionListener s = new ActionListener()
             {
+
                 @Override
                 public void actionPerformed(ActionEvent e) 
                 {
@@ -406,8 +408,22 @@ public class Tanks
                 }
                 
             };
+            
+            //action listener increments time
             spawn = new Timer(2000,s);
             spawn.start();
+            ActionListener t = new ActionListener()
+            {
+
+                @Override
+                public void actionPerformed(ActionEvent e) 
+                {
+                   time++;
+                }
+                
+            };
+            tim = new Timer(1000,t);
+            tim.start();
         }
         public void setGameMode(int newGameMode)
         {
