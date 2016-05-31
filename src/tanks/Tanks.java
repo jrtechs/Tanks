@@ -369,7 +369,6 @@ public class Tanks
             
             ActionListener s = new ActionListener()
             {
-
                 @Override
                 public void actionPerformed(ActionEvent e) 
                 {
@@ -379,7 +378,10 @@ public class Tanks
             };
             spawn = new Timer(2000,s);
             spawn.start();
-            
+        }
+        public void setGameMode(int newGameMode)
+        {
+            newGameMode=gameMode;
         }
         public void draw(Graphics g)
         {
