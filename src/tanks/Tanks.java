@@ -23,7 +23,8 @@ public class Tanks
     //fields
     private JFrame frame;
     private JPanel panel;
-    
+    private int fheight=500;
+    private int fwidth=500;
     
     private Timer move;
     private KeyListener key;
@@ -167,14 +168,17 @@ public class Tanks
             height = 50;
         }
         
-        void move()
+         void move()
         {
             if(up==true)
             {
-                super.move(-1);
+                
+               super.move(-1);
+                
             }
             if(down==true)
             {
+             
                 super.move(1);
             }
             if(left==true)
@@ -185,6 +189,23 @@ public class Tanks
             {
                 super.direction+=5;
             }
+            if(y<=0)
+            { 
+               y+=speed;
+            }
+            else if(x<=0)
+            { 
+                x+=speed;
+            }
+            else if(x>=fwidth-width)
+            {
+                x-=speed;
+            }
+            else if(y>=fheight-height)
+            {
+                y-=speed;
+            }
+
         }
         void updateDir(KeyEvent e, boolean pressed)
         {
