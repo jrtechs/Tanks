@@ -159,6 +159,7 @@ public class Tanks
         
         public Player()
         {
+            t=new Turret(this);
             speed = 5;
             x = frame.getWidth()/2;
             y = frame.getHeight()/2;
@@ -175,20 +176,23 @@ public class Tanks
             {
                 
                super.move(-1);
+               t.move(-1);
                 
             }
             if(down==true)
             {
-             
+                t.move(1);
                 super.move(1);
             }
             if(left==true)
             {
                 super.direction -=5;
+                t.rotate(-1);
             }
             if(right==true)
             {
                 super.direction+=5;
+                t.rotate(1);
             }
             if(y<=0)
             { 
@@ -206,6 +210,8 @@ public class Tanks
             {
                 y-=speed;
             }
+            t.x = x+12;
+            t.y = y+12;
 
         }
         void updateDir(KeyEvent e, boolean pressed)
@@ -227,6 +233,14 @@ public class Tanks
             {
                 right=pressed;
             }
+            else if(id==KeyEvent.VK_A)
+            {
+                t.rotate(-1);
+            }
+            else if(id==KeyEvent.VK_D)
+            {
+                t.rotate(1);
+            }
             else if(id==KeyEvent.VK_SPACE)
             {
                 if(pressed)
@@ -238,7 +252,13 @@ public class Tanks
         }
         void shoot()
         {
-            bullets.add(new Bullet (this));
+            bullets.add(new Bullet (t));
+        }
+       public void draw (Graphics g)
+        {
+            super.draw(g);
+            t.draw(g);
+            
         }
         
     }
@@ -363,13 +383,34 @@ public class Tanks
     
     /*
         a turret is drawn ontop of the tank
-        a turret can rotate and shoot bullets
+        a turret can rotate and shoot bullets, 
+        if rotate is called, put in -1 or 1, if -1, it will 
+        turn left, 1 will cause 
+        it to turn right
     */
     private class Turret extends RotationalElement
     {
-        
+        public Turret(RotationalElement e)
+        {
+            width = 25;
+            height = 25;
+            x = e.x;
+            y = e.y;
+            direction = e.direction;
+            speed = 10;
+            imageLocation = "bullet.png";
+            super.loadImage();
+        }
+        public void shoot()
+        {
+            //bullets.add(new Bullet (this));
+        }
+
+        public void rotate(int e)
+        {
+            super.direction = super.direction + 5*e;
+        }
     }
-    
     /*
     
     */
