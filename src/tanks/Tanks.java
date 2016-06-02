@@ -417,9 +417,47 @@ public class Tanks
     private class Tank extends Enemy
     {
 
-        @Override
-        public void move() {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Bullet b;
+        Turret t;
+        Timer tim;
+        public Tank()
+        {
+            super();
+            speed=3;
+            ActionListener al = new ActionListener()
+            {
+
+                @Override
+                public void actionPerformed(ActionEvent e) 
+                {
+                   b = new Bullet(t);
+                   b.enemyBullet=true;
+                   bullets.add(b);
+                }
+                
+            };
+            tim = new Timer(3500,al);
+            tim.start();
+        }
+        public void move() 
+        {
+            if(this.distToPlayer(p)>150)
+            {
+                direction = angleToPlayer(p);
+                super.move(-1);
+                if(this.checkCollision(p))
+                {
+                    enemy.remove(this);
+                    p.takeDamage();
+                    if(!p.isAlive)
+                    {
+                        wave.setGameMode(2);
+                    }
+                }
+            }
+            t.x=this.x+25;
+            t.y=this.y+25;
+            t.direction=this.angleToPlayer(p);
         }
         
     }
