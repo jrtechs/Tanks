@@ -8,6 +8,7 @@
 package tanks;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -83,6 +84,34 @@ public class Tanks
                 g.setColor(Color.BLACK);
                 g.fillRect(0, fheight, fwidth, 150);    
                 p.draw(g);
+                
+                //Game Info Section
+                //Wave
+                g.setColor(Color.WHITE);
+                g.setFont(new Font("Arial" , 1, 25));
+                g.drawString("Wave: " + wave.waveNum, 50, fheight + 50);
+                
+                //Kills
+                g.setColor(Color.WHITE);
+                g.setFont(new Font("Arial" , 1, 25));
+                g.drawString("Kills: " + wave.kills, 300, fheight + 50);
+                
+                //Health
+                g.setColor(Color.WHITE);
+                g.setFont(new Font("Arial" , 1, 25));
+                g.drawString("Health: " + p.health, 500, fheight + 50);
+                
+                //Time
+                g.setColor(Color.WHITE);
+                g.setFont(new Font("Arial" , 1, 25));
+                g.drawString("Time: " + wave.timeCount , 700, fheight + 50);
+                
+                if(wave.gameMode == 2)
+                {
+                    g.setColor(Color.RED);
+                    g.setFont(new Font("Arial" , 1, 40));
+                    g.drawString("You Died" , fwidth/2 - 100, fheight/2);
+                }
             }
         };
         frame.add(panel);
@@ -300,6 +329,7 @@ public class Tanks
                 if(!p.isAlive)
                 {
                     wave.setGameMode(2);
+                    wave.kills++;
                 }
             }
         }
@@ -358,6 +388,7 @@ public class Tanks
                         if(!enemy.get(i).isAlive)
                         {
                             enemy.remove(enemy.get(i));
+                            wave.kills++;
                         }
                     }
                 }
@@ -468,13 +499,13 @@ public class Tanks
         2=paused, 3=menu. spawntime keeps a countdown until next spawn,
         kills keeps track of kills duh.
         */
-        int time, kills, gameMode, waveNum;
-        Timer spawn, tim;
+        int timeCount, kills, gameMode, waveNum;
+        Timer spawn, time;
         
         //constuctor
         public Wave()
         {
-            time=0;
+            timeCount=0;
             kills=0;
             gameMode=1;
             waveNum=1;
@@ -503,16 +534,23 @@ public class Tanks
                 @Override
                 public void actionPerformed(ActionEvent e) 
                 {
-                   time++;
+                   timeCount++;
                 }
                 
             };
-            tim = new Timer(1000,t);
-            tim.start();
+            time = new Timer(1000,t);
+            time.start();
         }
         public void setGameMode(int newGameMode)
         {
-            newGameMode=gameMode;
+            gameMode = newGameMode;
+            if(gameMode == 2)
+            {
+                //Player has died, ending the game
+                time.stop();
+                move.stop();
+                
+            }
         }
         
         
