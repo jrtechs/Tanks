@@ -478,49 +478,77 @@ public class Tanks
     /*
     
     */
-    private class Tank extends Enemy
+     private class Tank extends Enemy
     {
 
         Bullet b;
         Turret t;
         Timer tim;
+        ActionListener al;
         public Tank()
         {
             super();
-            speed=3;
-            ActionListener al = new ActionListener()
+            enemy.add(this);
+            this.spawn(frame);
+            width = 50;
+            height = 50;
+            health = 20;
+            isAlive=true;
+            speed = 2;
+            imageLocation = "enemyTank.png";
+            super.loadImage();
+            t = new Turret(this);
+            t.imageLocation = "enemyTurret.png";
+            t.loadImage();
+            
+            al = new ActionListener()
             {
-
                 @Override
                 public void actionPerformed(ActionEvent e) 
                 {
-                   b = new Bullet(t);
-                   b.enemyBullet=true;
-                   bullets.add(b);
+                   if(getAlive())
+                   { 
+                       b = new Bullet(t);
+                       b.enemyBullet=true;
+                       bullets.add(b);
+                   }
+                  
                 }
                 
             };
             tim = new Timer(3500,al);
             tim.start();
+            
+            
+        }
+        public void draw (Graphics g)
+        {
+            super.draw(g);
+            t.draw(g);
+            
         }
         public void move() 
         {
-            if(this.distToPlayer(p)>150)
+            if(this.distToPlayer(p)>250)
             {
                 direction = angleToPlayer(p);
                 super.move(-1);
                 if(this.checkCollision(p))
                 {
-                    enemy.remove(this);
                     p.takeDamage();
+                    this.takeDamage();
+                    if(isAlive==false)
+                    {
+                        enemy.remove(this);
+                    }
                     if(!p.isAlive)
                     {
                         wave.setGameMode(2);
                     }
                 }
             }
-            t.x=this.x+25;
-            t.y=this.y+25;
+            t.x=this.x;
+            t.y=this.y;
             t.direction=this.angleToPlayer(p);
         }
         
@@ -567,10 +595,10 @@ public class Tanks
                 @Override
                 public void actionPerformed(ActionEvent e) 
                 {
-                   if(wave.gameMode == 1)
-                   {
-                       timeCount++;
-                   }
+                    if(gameMode==1)
+                    {
+                        timeCount++;
+                    }
                 }
                 
             };
@@ -579,19 +607,26 @@ public class Tanks
         }
         public void setGameMode(int newGameMode)
         {
-            gameMode = newGameMode;            
+            gameMode = newGameMode;
+            if(gameMode == 2)
+            {
+                //Player has died, ending the game
+                time.stop();
+                move.stop();
+                
+            }
         }
         
         
         //spawn method checks if spawn timer ==0 and if so then spawns an 
         //enemy
-        //Turn off enemy spawning when the game is paused ************************************************************
         public void spawn()
         {
-            
+
             Enemy temp = new Zombie();
             temp.spawn(frame);
             enemy.add(temp);
+            enemy.add(new Tank());
 
         }
         
@@ -599,3 +634,4 @@ public class Tanks
         //timer
     }
 }
+
