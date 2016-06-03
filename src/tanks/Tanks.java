@@ -43,6 +43,7 @@ public class Tanks
     
         frame=new JFrame("Tanks project");
         frame.setSize(fwidth,fheight + 150);
+        frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         newGame();
@@ -184,7 +185,7 @@ public class Tanks
     private class Player extends Living
     {
         private Turret t;
-        private boolean up,down,left,right;
+        private boolean up,down,left,right, rleft, rRight;
         
         public Player()
         {
@@ -201,12 +202,19 @@ public class Tanks
         
          void move()
         {
+            if(rleft)
+            {
+                t.rotate(-1);
+            }
+            if(rRight)
+            {
+                t.rotate(1);
+            }
             if(up==true)
             {
                 
                super.move(-1);
                t.move(-1);
-                
             }
             if(down==true)
             {
@@ -239,8 +247,8 @@ public class Tanks
             {
                 y-=speed;
             }
-            t.x = x+12;
-            t.y = y+12;
+            t.x = x;
+            t.y = y;
 
         }
         void updateDir(KeyEvent e, boolean pressed)
@@ -264,11 +272,11 @@ public class Tanks
             }
             else if(id==KeyEvent.VK_A)
             {
-                t.rotate(-1);
+                rleft = pressed;
             }
             else if(id==KeyEvent.VK_D)
             {
-                t.rotate(1);
+                rRight = pressed;
             }
             else if(id==KeyEvent.VK_SPACE)
             {
@@ -352,8 +360,8 @@ public class Tanks
         {
             width = 25;
             height = 25;
-            x = e.x;
-            y = e.y;
+            x = e.x + 12;
+            y = e.y + 12;
             direction = e.direction;
             speed = 10;
             imageLocation = "bullet.png";
@@ -423,13 +431,13 @@ public class Tanks
     {
         public Turret(RotationalElement e)
         {
-            width = 25;
-            height = 25;
+            width = 50;
+            height = 50;
             x = e.x;
             y = e.y;
             direction = e.direction;
             speed = 10;
-            imageLocation = "bullet.png";
+            imageLocation = "turret.png";
             super.loadImage();
         }
         public void shoot()
@@ -562,7 +570,7 @@ public class Tanks
             Enemy temp = new Zombie();
             temp.spawn(frame);
             enemy.add(temp);
-            
+
         }
         
         
