@@ -43,7 +43,7 @@ public class Tanks
     
         frame=new JFrame("Tanks project");
         frame.setSize(fwidth,fheight + 150);
-        frame.setResizable(false);
+        //frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         newGame();
@@ -53,10 +53,22 @@ public class Tanks
             @Override
             public void keyTyped(KeyEvent e) 
             {
+                
             }
             @Override
             public void keyPressed(KeyEvent e)
             {
+                if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
+                {
+                    if(wave.gameMode == 1)
+                    {
+                        wave.setGameMode(3);
+                    }
+                    else if (wave.gameMode == 3)
+                    {
+                        wave.setGameMode(1);
+                    }
+                }
                 p.updateDir(e, true);
             }
             @Override
@@ -107,12 +119,21 @@ public class Tanks
                 g.setFont(new Font("Arial" , 1, 25));
                 g.drawString("Time: " + wave.timeCount , 700, fheight + 50);
                 
+                //Pausing the game
+                if(wave.gameMode == 3)
+                {
+                    g.setColor(Color.WHITE);
+                    g.setFont(new Font("Arial" , 1, 40));
+                    g.drawString("PAUSED - PRESS ESC TO CONTINUE" , 75, fheight/2);
+                }
+                
                 if(wave.gameMode == 2)
                 {
                     g.setColor(Color.RED);
                     g.setFont(new Font("Arial" , 1, 40));
                     g.drawString("You Died" , fwidth/2 - 100, fheight/2);
                 }
+                
             }
         };
         frame.add(panel);
@@ -124,29 +145,32 @@ public class Tanks
             //Override
             public void actionPerformed(ActionEvent e)
             {
-                p.move();
-                for(int i = 0; i < bullets.size(); i ++)
+                if(wave.gameMode == 1)
                 {
-                    try
+                    p.move();
+                    for(int i = 0; i < bullets.size(); i ++)
                     {
-                         bullets.get(i).move();
+                        try
+                        {
+                             bullets.get(i).move();
+                        }
+                        catch(Exception ex)
+                        {
+
+                        }
+
                     }
-                    catch(Exception ex)
+
+                    for(int i = 0; i < enemy.size(); i++)
                     {
-                        
-                    }
-                   
-                }
-                
-                for(int i = 0; i < enemy.size(); i++)
-                {
-                    try
-                    {
-                        enemy.get(i).move();
-                    }
-                    catch(Exception ex)
-                    {
-                        
+                        try
+                        {
+                            enemy.get(i).move();
+                        }
+                        catch(Exception ex)
+                        {
+
+                        }
                     }
                 }
                 panel.repaint();
@@ -168,6 +192,7 @@ public class Tanks
     public static void main(String[] arguments)
     {
         Tanks game = new Tanks();
+        
     }
     
     
@@ -542,7 +567,10 @@ public class Tanks
                 @Override
                 public void actionPerformed(ActionEvent e) 
                 {
-                   timeCount++;
+                   if(wave.gameMode == 1)
+                   {
+                       timeCount++;
+                   }
                 }
                 
             };
@@ -551,22 +579,16 @@ public class Tanks
         }
         public void setGameMode(int newGameMode)
         {
-            gameMode = newGameMode;
-            if(gameMode == 2)
-            {
-                //Player has died, ending the game
-                time.stop();
-                move.stop();
-                
-            }
+            gameMode = newGameMode;            
         }
         
         
         //spawn method checks if spawn timer ==0 and if so then spawns an 
         //enemy
+        //Turn off enemy spawning when the game is paused ************************************************************
         public void spawn()
         {
-
+            
             Enemy temp = new Zombie();
             temp.spawn(frame);
             enemy.add(temp);
