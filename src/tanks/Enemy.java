@@ -23,28 +23,28 @@ public abstract class Enemy extends Living
     to determine which edge of map enemy spawns. Random number code to
     determine how far down or how far over player spawns on given edge.
     */
-    public void spawn(JFrame frame)
+    public void spawn(int w, int h)
     {
         int temp=(int)(Math.random()*(4)) + 1;
         if(temp==1)
         {
             y=0;
-            x=(int)(Math.random()*(frame.getWidth()+1));
+            x=(int)(Math.random()*(w));
         }
         else if(temp==2)
         {
-            y=(int)(Math.random()*(frame.getHeight()+1));
-            x=frame.getWidth();
+            y=(int)(Math.random()*(h));
+            x=w;
         }
         else if(temp==3)
         {
-            y=frame.getHeight();
-            x=(int)(Math.random()*(frame.getWidth()+1));
+            y=h;
+            x=(int)(Math.random()*(w+1));
         }
         else
         {
             x=0;
-            y=(int)(Math.random()*(frame.getHeight()+1));
+            y=(int)(Math.random()*(h - 200));
         }
     }
     

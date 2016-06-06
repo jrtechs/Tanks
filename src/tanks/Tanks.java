@@ -43,7 +43,7 @@ public class Tanks
     
         frame=new JFrame("Tanks project");
         frame.setSize(fwidth,fheight + 150);
-        //frame.setResizable(false);
+        frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         newGame();
@@ -340,7 +340,7 @@ public class Tanks
         public Zombie()
         {
             super();
-            this.spawn(frame);
+            spawn(fwidth, fheight);
             width = 30;
             height = 30;
             health = 10;
@@ -399,11 +399,11 @@ public class Tanks
             super.move(-1);
             
             //Checks if the bullet goes off screen, if so... it get removed
-            if(x < 0 || x > frame.getWidth())
+            if(x < 0 || x > fwidth)
             {
                 bullets.remove(this);
             }
-            if (y < 0 || y > frame.getHeight())
+            if (y < 0 || y > fheight)
             {
                 bullets.remove(this);
             }
@@ -489,7 +489,7 @@ public class Tanks
         {
             super();
             enemy.add(this);
-            this.spawn(frame);
+            this.spawn(fwidth, fheight);
             width = 50;
             height = 50;
             health = 20;
@@ -554,7 +554,7 @@ public class Tanks
         
     }
 
-     private class Wave extends DrawableElement
+    private class Wave extends DrawableElement
     {
         /*fields time is continous while playing, gameMode(1=playing, 
         2=paused, 3=menu. spawntime keeps a countdown until next spawn,
@@ -587,7 +587,7 @@ public class Tanks
             };
             
             //action listener increments time
-            spawn = new Timer(2000,s);
+            spawn = new Timer(5000,s);
             spawn.start();
             ActionListener t = new ActionListener()
             {
@@ -622,10 +622,7 @@ public class Tanks
         //enemy
         public void spawn()
         {
-
-            Enemy temp = new Zombie();
-            temp.spawn(frame);
-            enemy.add(temp);
+            enemy.add(new Zombie());
             enemy.add(new Tank());
 
         }
