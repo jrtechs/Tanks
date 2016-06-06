@@ -53,7 +53,6 @@ public class Tanks
             @Override
             public void keyTyped(KeyEvent e) 
             {
-                
             }
             @Override
             public void keyPressed(KeyEvent e)
@@ -103,6 +102,10 @@ public class Tanks
                 g.setColor(Color.WHITE);
                 g.setFont(new Font("Arial" , 1, 25));
                 g.drawString("Wave: " + wave.waveNum, 50, fheight + 50);
+                
+                g.setColor(Color.WHITE);
+                g.setFont(new Font("Arial" , 1, 25));
+                g.drawString("Ammo: "+ p.ammo, 150, fheight+50);
                 
                 //Kills
                 g.setColor(Color.WHITE);
@@ -211,9 +214,27 @@ public class Tanks
     {
         private Turret t;
         private boolean up,down,left,right, rleft, rRight;
+        private int ammo=10;
+        private boolean shoot;
+            ActionListener coolDown = new ActionListener()
+            {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if(shoot==false)
+                    {
+                        shoot=true;
+                    }
+                }
+                
+            };
+            Timer time=new Timer(300,coolDown);
+        
         
         public Player()
         {
+
+            time.start();
             t=new Turret(this);
             speed = 5;
             x = frame.getWidth()/2;
@@ -303,24 +324,47 @@ public class Tanks
             {
                 rRight = pressed;
             }
+            else if(id==KeyEvent.VK_R)
+            {
+                ammo=10;
+            }
             else if(id==KeyEvent.VK_SPACE)
             {
                 if(pressed)
                 {
-                    shoot();
+                    if (shoot)
+                    {
+                        shoot();
+                        shoot=false;
+                    }
+                    else
+                    {
+                      
+                    }
+
+
                 }
             }
             
         }
         void shoot()
         {
-            bullets.add(new Bullet (t));
+                
+                
+                if(ammo<=0)
+                {
+                }
+                else
+                {
+                    bullets.add(new Bullet (t));
+                    ammo--;
+                }
+               
         }
        public void draw (Graphics g)
         {
             super.draw(g);
             t.draw(g);
-            
         }
         
     }
