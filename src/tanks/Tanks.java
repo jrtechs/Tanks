@@ -598,14 +598,14 @@ public class Tanks
         
     }
 
-    private class Wave extends DrawableElement
+     private class Wave extends DrawableElement
     {
         /*fields time is continous while playing, gameMode(1=playing, 
         2=paused, 3=menu. spawntime keeps a countdown until next spawn,
         kills keeps track of kills duh.
         */
-        int timeCount, kills, gameMode, waveNum;
-        Timer spawn, time;
+        int timeCount, kills, gameMode, waveNum, spawnedTanks, spawnedZombies;
+        Timer spawnTank, spawnZombie, time;
         
         //constuctor
         public Wave()
@@ -619,20 +619,32 @@ public class Tanks
             super.loadImage();
             
             //actionlistener calls spawn every 2 seconds
-            ActionListener s = new ActionListener()
+            ActionListener z = new ActionListener()
             {
 
                 @Override
                 public void actionPerformed(ActionEvent e) 
                 {
-                    spawn();
+                    spawnZombie();
+                }
+                
+            };
+            
+            ActionListener ta = new ActionListener()
+            {
+
+                @Override
+                public void actionPerformed(ActionEvent e) 
+                {
+                    spawnTank();
                 }
                 
             };
             
             //action listener increments time
-            spawn = new Timer(5000,s);
-            spawn.start();
+            spawnTank = new Timer(2000,ta);
+            spawnZombie = new Timer(2000, z);
+            spawnZombie.start();
             ActionListener t = new ActionListener()
             {
 
@@ -657,22 +669,115 @@ public class Tanks
                 //Player has died, ending the game
                 time.stop();
                 move.stop();
-                
+                spawnZombie.stop();
+                spawnTank.stop();
+            }
+            else if(gameMode == 4)
+            {
+                //Player has won
+                time.stop();
+                move.stop();
+                spawnZombie.stop();
+                spawnTank.stop();
             }
         }
         
         
         //spawn method checks if spawn timer ==0 and if so then spawns an 
         //enemy
-        public void spawn()
+        public void spawnTank()
+        {
+           enemy.add(new Tank());
+           spawnedTanks++;
+        }
+        public void spawnZombie()
         {
             enemy.add(new Zombie());
-            enemy.add(new Tank());
-
+            spawnedZombies++;
         }
+        public void waveCheck()
+        {
+            if(gameMode == 1)
+            {
+                switch(waveNum)
+                {
+                    case 1:
+                        if(kills == 15)
+                        {
+                            changeWave();
+                        }
+                        break;
+                    case 2:
+                        if(kills == 20)
+                        {
+                            changeWave();
+                        }
+                        break;
+                    case 3:
+                        if(kills == 26)
+                        {
+                            spawnTank.start();
+                            changeWave();
+                        }
+                        break;
+                    case 4:
+                        if(kills == 32)
+                        {
+                            changeWave();
+                        }
+                        break;
+                    case 5:
+                        if(kills == 33)
+                        {
+                            changeWave();
+                        }
+                        break;
+                    case 6:
+                        if(kills == 35)
+                        {
+                            changeWave();
+                        }
+                        break;   
+                    case 7:
+                        if(kills == 37)
+                        {
+                            changeWave();
+                        }
+                        break;   
+                     case 8:
+                        if(kills == 40)
+                        {
+                            changeWave();
+                        }
+                        break;   
+                    case 9:
+                        if(kills == 49)
+                        {
+                            changeWave();
+                        }
+                        break;
+                    case 10:
+                        if(kills == 60)
+                        {
+                            //Game over
+                            
+                        }
+                        break;
+                }
+            }
+        }
+        public void changeWave()
+        {
+            waveNum++;
+            spawnedZombies = 0;
+            spawnedTanks = 0;
+            kills = 0;
+            spawnTank.setDelay(4000);
+        }
+            
         
         
-        //timer
+            
     }
 }
 
