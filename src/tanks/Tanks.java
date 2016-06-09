@@ -68,6 +68,14 @@ public class Tanks
                         wave.setGameMode(1);
                     }
                 }
+                if(e.getKeyCode() == KeyEvent.VK_ENTER)
+                {
+                    if(wave.gameMode == 0 || wave.gameMode == 2)
+                    {
+                        newGame();
+                        wave.gameMode = 1;
+                    }
+                }
                 p.updateDir(e, true);
             }
             @Override
@@ -101,27 +109,8 @@ public class Tanks
                 //Wave
                 g.setColor(Color.WHITE);
                 g.setFont(new Font("Arial" , 1, 25));
-                g.drawString("Wave: " + wave.waveNum, 50, fheight + 50);
-                
-                g.setColor(Color.WHITE);
-                g.setFont(new Font("Arial" , 1, 25));
-                g.drawString("Ammo: "+ p.ammo, 150, fheight+50);
-                
-                //Kills
-                g.setColor(Color.WHITE);
-                g.setFont(new Font("Arial" , 1, 25));
-                g.drawString("Kills: " + wave.kills, 300, fheight + 50);
-                
-                //Health
-                g.setColor(Color.WHITE);
-                g.setFont(new Font("Arial" , 1, 25));
-                g.drawString("Health: " + p.health, 500, fheight + 50);
-                
-                //Time
-                g.setColor(Color.WHITE);
-                g.setFont(new Font("Arial" , 1, 25));
-                g.drawString("Time: " + wave.timeCount , 700, fheight + 50);
-                
+                g.drawString("Wave: " + wave.waveNum + "     Ammo: "+ p.ammo + "     Kills: " + wave.kills +"     Health: " + p.health + "     Time: " + wave.timeCount, 50, fheight + 50);
+           
                 //Pausing the game
                 if(wave.gameMode == 3)
                 {
@@ -135,6 +124,15 @@ public class Tanks
                     g.setColor(Color.RED);
                     g.setFont(new Font("Arial" , 1, 40));
                     g.drawString("You Died" , fwidth/2 - 100, fheight/2);
+                    
+                    
+                    g.setColor(Color.WHITE);
+                    g.setFont(new Font("Arial" , 1, 25));
+                    g.drawString("Press enter to play", 50, fheight + 100);
+                }
+                else if(wave.gameMode ==0)
+                {
+                    g.drawString("Press enter to play", 50, fheight + 100);
                 }
                 
             }
@@ -176,6 +174,7 @@ public class Tanks
                         }
                     }
                 }
+                wave.waveCheck();
                 panel.repaint();
             }
         };
@@ -233,12 +232,14 @@ public class Tanks
         
         public Player()
         {
-
-            time.start();
-            t=new Turret(this);
-            speed = 5;
             x = frame.getWidth()/2;
             y = frame.getHeight()/2;
+            time.start();
+            t=new Turret(this);
+            
+            speed = 5;
+            
+            
             health = 100;
             this.imageLocation = "player.png";
             super.loadImage();
@@ -324,7 +325,7 @@ public class Tanks
             {
                 rRight = pressed;
             }
-            else if(id==KeyEvent.VK_R)
+            else if(id==KeyEvent.VK_R && wave.gameMode ==1)
             {
                 ammo=10;
             }
@@ -542,6 +543,7 @@ public class Tanks
             imageLocation = "enemyTank.png";
             super.loadImage();
             t = new Turret(this);
+            
             t.imageLocation = "enemyTurret.png";
             t.loadImage();
             
@@ -601,8 +603,11 @@ public class Tanks
      private class Wave extends DrawableElement
     {
         /*fields time is continous while playing, gameMode(1=playing, 
-        2=paused, 3=menu. spawntime keeps a countdown until next spawn,
+        2=dead, 3=paused. spawntime keeps a countdown until next spawn,
         kills keeps track of kills duh.
+         //4 win
+        1 alive and playing
+        0 main
         */
         int timeCount, kills, gameMode, waveNum, spawnedTanks, spawnedZombies;
         Timer spawnTank, spawnZombie, time;
@@ -612,7 +617,7 @@ public class Tanks
         {
             timeCount=0;
             kills=0;
-            gameMode=1;
+            gameMode=0;
             waveNum=1;
             
             imageLocation = "wave.jpg";
@@ -625,7 +630,11 @@ public class Tanks
                 @Override
                 public void actionPerformed(ActionEvent e) 
                 {
-                    spawnZombie();
+                    if(gameMode == 1)
+                    {
+                        spawnZombie();
+                    }
+                    
                 }
                 
             };
@@ -636,7 +645,8 @@ public class Tanks
                 @Override
                 public void actionPerformed(ActionEvent e) 
                 {
-                    spawnTank();
+                    if(gameMode ==1)
+                       spawnTank();
                 }
                 
             };
@@ -668,7 +678,7 @@ public class Tanks
             {
                 //Player has died, ending the game
                 time.stop();
-                move.stop();
+                //move.stop();
                 spawnZombie.stop();
                 spawnTank.stop();
             }
@@ -676,7 +686,7 @@ public class Tanks
             {
                 //Player has won
                 time.stop();
-                move.stop();
+                //move.stop();
                 spawnZombie.stop();
                 spawnTank.stop();
             }
