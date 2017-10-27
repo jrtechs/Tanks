@@ -1,8 +1,8 @@
 /*
-    super class for any enemy in the game
-    a enemy can spawn at a random location along the border of the map
-    a enemy can also calculate the distance and angle to the player
-    5-23-16
+* super class for any enemy in the game
+* a enemy can spawn at a random location along the border of the map
+* a enemy can also calculate the distance and angle to the player
+* 5-23-16
 */
 package tanks;
 
@@ -19,9 +19,9 @@ public abstract class Enemy extends Living
     public abstract void move();
     
    /*
-    enemy spawns at a random location on boarder of map. Random number 1-4 
-    to determine which edge of map enemy spawns. Random number code to
-    determine how far down or how far over player spawns on given edge.
+    * enemy spawns at a random location on boarder of map. Random number 1-4
+    * to determine which edge of map enemy spawns. Random number code to
+    * determine how far down or how far over player spawns on given edge.
     */
     public void spawn(int w, int h)
     {
@@ -50,8 +50,8 @@ public abstract class Enemy extends Living
     
     
     /*
-    Used right triangle algebra to determine distance from x,y of enemy 
-    to x,y of player.
+    * Used right triangle algebra to determine distance from x,y of enemy
+    * to x,y of player.
     */
     public double distToPlayer(RotationalElement p)
     {
@@ -64,8 +64,8 @@ public abstract class Enemy extends Living
     
     
     /*
-    Found lengths of imaginary triangle between player and enemy. 
-    Then used inverse trig to determine angle.
+    * Found lengths of imaginary triangle between player and enemy.
+    * Then used inverse trig to determine angle.
     */
     public double angleToPlayer(RotationalElement p)
     {
