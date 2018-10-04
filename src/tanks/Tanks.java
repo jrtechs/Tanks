@@ -141,42 +141,38 @@ public class Tanks
         frame.setVisible(true);
         
         //Timer
-        ActionListener tic = new ActionListener()
-        {
-            //Override
-            public void actionPerformed(ActionEvent e)
+        //Override
+        ActionListener tic = e -> {
+            if(wave.gameMode == 1)
             {
-                if(wave.gameMode == 1)
+                p.move();
+                for(int i = 0; i < bullets.size(); i ++)
                 {
-                    p.move();
-                    for(int i = 0; i < bullets.size(); i ++)
+                    try
                     {
-                        try
-                        {
-                             bullets.get(i).move();
-                        }
-                        catch(Exception ex)
-                        {
-
-                        }
+                         bullets.get(i).move();
+                    }
+                    catch(Exception ex)
+                    {
 
                     }
 
-                    for(int i = 0; i < enemy.size(); i++)
-                    {
-                        try
-                        {
-                            enemy.get(i).move();
-                        }
-                        catch(Exception ex)
-                        {
+                }
 
-                        }
+                for(int i = 0; i < enemy.size(); i++)
+                {
+                    try
+                    {
+                        enemy.get(i).move();
+                    }
+                    catch(Exception ex)
+                    {
+
                     }
                 }
-                wave.waveCheck();
-                panel.repaint();
             }
+            wave.waveCheck();
+            panel.repaint();
         };
         
         move = new Timer(30, tic);        //Timer that moves things... Moves the player and enemies?
@@ -350,27 +346,16 @@ public class Tanks
         }
         void shoot()
         {
-                
-                
-                if(ammo<=0)
-                {
-                }
-                else
-                {
-                    bullets.add(new Bullet (t));
-                    ammo--;
-                }
-               
+            if(ammo>0) {
+                bullets.add(new Bullet (t));
+                ammo--;
+            }
         }
-       public void draw (Graphics g)
-        {
+       public void draw (Graphics g) {
             super.draw(g);
             t.draw(g);
         }
-        
     }
-    
-    
     /**
      * A zombie extends Enemy
      * a zombie has a specialized move method which
@@ -396,26 +381,20 @@ public class Tanks
         }
         //uses super to move player if collision then removes zombie and player
         //takes damage
-        public void move()
-        {
+        public void move() {
             direction = angleToPlayer(p);
             super.move(-1);
-            if(this.checkCollision(p))
-            {
+            if(this.checkCollision(p)) {
                 enemy.remove(this);
                 p.takeDamage();
-                if(!p.isAlive)
-                {
+                if(!p.isAlive) {
                     wave.setGameMode(2);
                     wave.kills++;
                 }
             }
         }
     }
-    
-    
-    
-    
+
     /**
      * a bullet moves at a specified angle
      * if the bullet collides with a enemy it gives damage
@@ -712,57 +691,48 @@ public class Tanks
                 switch(waveNum)
                 {
                     case 1:
-                        if(kills == 15)
-                        {
+                        if(kills == 15) {
                             changeWave();
                         }
                         break;
                     case 2:
-                        if(kills == 20)
-                        {
+                        if(kills == 20) {
                             changeWave();
                         }
                         break;
                     case 3:
-                        if(kills == 26)
-                        {
+                        if(kills == 26) {
                             spawnTank.start();
                             changeWave();
                         }
                         break;
                     case 4:
-                        if(kills == 32)
-                        {
+                        if(kills == 32) {
                             changeWave();
                         }
                         break;
                     case 5:
-                        if(kills == 33)
-                        {
+                        if(kills == 33) {
                             changeWave();
                         }
                         break;
                     case 6:
-                        if(kills == 35)
-                        {
+                        if(kills == 35) {
                             changeWave();
                         }
                         break;   
                     case 7:
-                        if(kills == 37)
-                        {
+                        if(kills == 37) {
                             changeWave();
                         }
                         break;   
                      case 8:
-                        if(kills == 40)
-                        {
+                        if(kills == 40) {
                             changeWave();
                         }
                         break;   
                     case 9:
-                        if(kills == 49)
-                        {
+                        if(kills == 49) {
                             changeWave();
                         }
                         break;
@@ -776,18 +746,13 @@ public class Tanks
                 }
             }
         }
-        public void changeWave()
-        {
+        public void changeWave() {
             waveNum++;
             spawnedZombies = 0;
             spawnedTanks = 0;
             kills = 0;
             spawnTank.setDelay(4000);
         }
-            
-        
-        
-            
     }
 }
 
