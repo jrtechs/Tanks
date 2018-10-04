@@ -18,12 +18,11 @@ public abstract class GameElement extends DrawableElement
     public Area shape;
     
     
-    /*
-        checks for collision against another game element
-        will only work if both shape variables are set
-        depending on the object the shape are will be set differently
-
-        returnes true if there was a collision, false otherwise
+    /**
+     * checks for collision against another game element
+     * will only work if both shape variables are set
+     * depending on the object the shape are will be set differently
+     * returnes true if there was a collision, false otherwise
     */
     public boolean checkCollision(GameElement e)
     {
@@ -34,8 +33,11 @@ public abstract class GameElement extends DrawableElement
         shape.intersect(e.shape);
     	return !(shape.isEmpty());
     }
-    
-    //method that ensures that every sub-class will set their shape accordingly
+
+    /**method that ensures that every sub-class will set their shape accordingly
+     * @param none
+     * @returns none
+     */
     public abstract void setShape();
     
 }

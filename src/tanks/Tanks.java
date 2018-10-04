@@ -203,11 +203,11 @@ public class Tanks
     */
     
     
-    /*
-         the player class which extends the living class
-         a player has a turret and an int kills
-         a player has a specialized move method
-         a player has a update direction method which takes in a keyevent
+    /**
+     * the player class which extends the living class
+     * a player has a turret and an int kills
+     * a player has a specialized move method
+     * a player has a update direction method which takes in a keyevent
     */
     private class Player extends Living
     {
@@ -371,13 +371,13 @@ public class Tanks
     }
     
     
-    /*
-        A zombie extends Enemy
-        a zombie has a specialized move method which 
-        moves it twards the player
-        
-        the move method checks to see if it collides with the player
-        if so it removes itself from the arraylist in tanks and deducts damage
+    /**
+     * A zombie extends Enemy
+     * a zombie has a specialized move method which
+     * moves it twards the player
+     *
+     * the move method checks to see if it collides with the player
+     * if so it removes itself from the arraylist in tanks and deducts damage
     */
     private class Zombie extends Enemy
     {
@@ -416,10 +416,10 @@ public class Tanks
     
     
     
-    /*
-        a bullet moves at a specified angle
-        if the bullet collides with a enemy it gives damage
-        if the bullet goes off the screen it removes itself from the arraylist
+    /**
+     * a bullet moves at a specified angle
+     * if the bullet collides with a enemy it gives damage
+     * if the bullet goes off the screen it removes itself from the arraylist
     */
     private class Bullet extends RotationalElement
     {
@@ -490,12 +490,12 @@ public class Tanks
           
     }
     
-    /*
-        a turret is drawn ontop of the tank
-        a turret can rotate and shoot bullets, 
-        if rotate is called, put in -1 or 1, if -1, it will 
-        turn left, 1 will cause 
-        it to turn right
+    /**
+     * a turret is drawn ontop of the tank
+     * a turret can rotate and shoot bullets,
+     * if rotate is called, put in -1 or 1, if -1, it will
+     * turn left, 1 will cause
+     * it to turn right
     */
     private class Turret extends RotationalElement
     {
@@ -602,12 +602,12 @@ public class Tanks
 
      private class Wave extends DrawableElement
     {
-        /*fields time is continous while playing, gameMode(1=playing, 
-        2=dead, 3=paused. spawntime keeps a countdown until next spawn,
-        kills keeps track of kills duh.
-         //4 win
-        1 alive and playing
-        0 main
+        /**fields time is continous while playing, gameMode(1=playing,
+         * 2=dead, 3=paused. spawntime keeps a countdown until next spawn,
+         * kills keeps track of kills duh.
+         * 4 win
+         * 1 alive and playing
+         * 0 main
         */
         int timeCount, kills, gameMode, waveNum, spawnedTanks, spawnedZombies;
         Timer spawnTank, spawnZombie, time;
