@@ -48,8 +48,7 @@ public class Tanks
         
         newGame();
         
-        key=new KeyListener()
-        {
+        key=new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) 
             {
@@ -88,17 +87,14 @@ public class Tanks
     
         panel = new JPanel()
         {
-            protected void paintComponent(Graphics g)
-            {
+            protected void paintComponent(Graphics g) {
                 //Paint Wave
                 wave.draw(g);
-                for(Bullet b: bullets)
-                {
+                for(Bullet b: bullets) {
                     b.draw(g);
                 }
                 
-                for(Enemy en: enemy)
-                {
+                for(Enemy en: enemy) {
                     en.draw(g);
                 }
                 g.setColor(Color.BLACK);
@@ -112,29 +108,25 @@ public class Tanks
                 g.drawString("Wave: " + wave.waveNum + "     Ammo: "+ p.ammo + "     Kills: " + wave.kills +"     Health: " + p.health + "     Time: " + wave.timeCount, 50, fheight + 50);
            
                 //Pausing the game
-                if(wave.gameMode == 3)
-                {
+                if(wave.gameMode == 3) {
                     g.setColor(Color.WHITE);
                     g.setFont(new Font("Arial" , 1, 40));
                     g.drawString("PAUSED - PRESS ESC TO CONTINUE" , 75, fheight/2);
                 }
-                
-                if(wave.gameMode == 2)
-                {
+
+                if(wave.gameMode == 2) {
+                    //On screen
                     g.setColor(Color.RED);
                     g.setFont(new Font("Arial" , 1, 40));
                     g.drawString("You Died" , fwidth/2 - 100, fheight/2);
-                    
-                    
+                    //In black bar
                     g.setColor(Color.WHITE);
                     g.setFont(new Font("Arial" , 1, 25));
                     g.drawString("Press enter to play", 50, fheight + 100);
                 }
-                else if(wave.gameMode ==0)
-                {
+                else if(wave.gameMode ==0) {
                     g.drawString("Press enter to play", 50, fheight + 100);
                 }
-                
             }
         };
         frame.add(panel);
@@ -146,29 +138,12 @@ public class Tanks
             if(wave.gameMode == 1)
             {
                 p.move();
-                for(int i = 0; i < bullets.size(); i ++)
-                {
-                    try
-                    {
-                         bullets.get(i).move();
-                    }
-                    catch(Exception ex)
-                    {
-
-                    }
-
+                for(int i = 0; i < bullets.size(); i ++) {
+                    bullets.get(i).move();
                 }
 
-                for(int i = 0; i < enemy.size(); i++)
-                {
-                    try
-                    {
-                        enemy.get(i).move();
-                    }
-                    catch(Exception ex)
-                    {
-
-                    }
+                for(int i = 0; i < enemy.size(); i++) {
+                    enemy.get(i).move();
                 }
             }
             wave.waveCheck();
@@ -181,24 +156,17 @@ public class Tanks
     
     void newGame()
     {
-        bullets = new ArrayList<Bullet>();
-        enemy = new ArrayList<Enemy>();
+        bullets = new ArrayList<>();
+        enemy = new ArrayList<>();
         p = new Player();
         wave = new Wave();
     }
     
-    public static void main(String[] arguments)
-    {
-        Tanks game = new Tanks();
-        
-    }
-    
-    
+
     /*
         Sub-classes that require the fields in tanks
     */
-    
-    
+
     /**
      * the player class which extends the living class
      * a player has a turret and an int kills
@@ -294,55 +262,37 @@ public class Tanks
             t.y = y;
 
         }
-        void updateDir(KeyEvent e, boolean pressed)
-        {
+        void updateDir(KeyEvent e, boolean pressed) {
             int id=e.getKeyCode();
-            if(id== KeyEvent.VK_UP)
-            {
+            if(id== KeyEvent.VK_UP) {
                 up=pressed;
             }
-            else if(id==KeyEvent.VK_DOWN)
-            {
+            else if(id==KeyEvent.VK_DOWN) {
                 down=pressed;
             }
-            else if(id==KeyEvent.VK_LEFT)
-            {
+            else if(id==KeyEvent.VK_LEFT) {
                 left=pressed;
             }
-            else if(id==KeyEvent.VK_RIGHT)
-            {
+            else if(id==KeyEvent.VK_RIGHT) {
                 right=pressed;
             }
-            else if(id==KeyEvent.VK_A)
-            {
+            else if(id==KeyEvent.VK_A) {
                 rleft = pressed;
             }
-            else if(id==KeyEvent.VK_D)
-            {
+            else if(id==KeyEvent.VK_D) {
                 rRight = pressed;
             }
-            else if(id==KeyEvent.VK_R && wave.gameMode ==1)
-            {
+            else if(id==KeyEvent.VK_R && wave.gameMode ==1) {
                 ammo=10;
             }
-            else if(id==KeyEvent.VK_SPACE)
-            {
-                if(pressed)
-                {
-                    if (shoot)
-                    {
+            else if(id==KeyEvent.VK_SPACE && wave.gameMode !=0) {
+                if(pressed) {
+                    if (shoot) {
                         shoot();
                         shoot=false;
                     }
-                    else
-                    {
-                      
-                    }
-
-
                 }
             }
-            
         }
         void shoot()
         {
@@ -418,32 +368,25 @@ public class Tanks
         }
 
         //Moving the bullet
-        public void move()
-        {
+        public void move() {
             super.move(-1);
             
             //Checks if the bullet goes off screen, if so... it get removed
-            if(x < 0 || x > fwidth)
-            {
+            if(x < 0 || x > fwidth) {
                 bullets.remove(this);
             }
-            if (y < 0 || y > fheight)
-            {
+            if (y < 0 || y > fheight) {
                 bullets.remove(this);
             }
             
             //Checks for collision with enemies, enemy takes damage and byllet is removed
-            for(int i = 0; i < enemy.size(); i++)
-            {
-                if(enemyBullet == false)
-                {
+            for(int i = 0; i < enemy.size(); i++) {
+                if(enemyBullet == false) {
                     boolean collided = this.checkCollision(enemy.get(i));
-                    if(collided)
-                    {
+                    if(collided) {
                         enemy.get(i).takeDamage();
                         bullets.remove(this);
-                        if(!enemy.get(i).isAlive)
-                        {
+                        if(!enemy.get(i).isAlive) {
                             enemy.remove(enemy.get(i));
                             wave.kills++;
                         }
@@ -455,12 +398,10 @@ public class Tanks
             if(enemyBullet)
             {
                 boolean collided = this.checkCollision(p);
-                if(collided)
-                {
+                if(collided) {
                     p.takeDamage();
                     bullets.remove(this);
-                    if(!p.isAlive)
-                    {
+                    if(!p.isAlive) {
                         wave.setGameMode(2);
                     }
                 }
@@ -476,10 +417,8 @@ public class Tanks
      * turn left, 1 will cause
      * it to turn right
     */
-    private class Turret extends RotationalElement
-    {
-        public Turret(RotationalElement e)
-        {
+    private class Turret extends RotationalElement {
+        public Turret(RotationalElement e) {
             width = 50;
             height = 50;
             x = e.x;
@@ -489,22 +428,16 @@ public class Tanks
             imageLocation = "turret.png";
             super.loadImage();
         }
-        public void shoot()
-        {
-            //bullets.add(new Bullet (this));
-        }
 
-        public void rotate(int e)
-        {
+        public void rotate(int e) {
             super.direction = super.direction + 5*e;
         }
     }
     /*
-    
+        A version of the emeny tank that arrives at some point
     */
      private class Tank extends Enemy
     {
-
         Bullet b;
         Turret t;
         Timer tim;
@@ -526,48 +459,32 @@ public class Tanks
             t.imageLocation = "enemyTurret.png";
             t.loadImage();
             
-            al = new ActionListener()
-            {
-                @Override
-                public void actionPerformed(ActionEvent e) 
-                {
-                   if(getAlive())
-                   { 
-                       b = new Bullet(t);
-                       b.enemyBullet=true;
-                       bullets.add(b);
-                   }
-                  
-                }
-                
+            al = e -> {
+               if(getAlive()) {
+                   b = new Bullet(t);
+                   b.enemyBullet=true;
+                   bullets.add(b);
+               }
             };
             tim = new Timer(3500,al);
             tim.start();
-            
-            
         }
-        public void draw (Graphics g)
-        {
+        public void draw (Graphics g) {
             super.draw(g);
             t.draw(g);
             
         }
-        public void move() 
-        {
-            if(this.distToPlayer(p)>250)
-            {
+        public void move() {
+            if(this.distToPlayer(p)>250) {
                 direction = angleToPlayer(p);
                 super.move(-1);
-                if(this.checkCollision(p))
-                {
+                if(this.checkCollision(p)) {
                     p.takeDamage();
                     this.takeDamage();
-                    if(isAlive==false)
-                    {
+                    if(isAlive==false) {
                         enemy.remove(this);
                     }
-                    if(!p.isAlive)
-                    {
+                    if(!p.isAlive) {
                         wave.setGameMode(2);
                     }
                 }
@@ -579,7 +496,7 @@ public class Tanks
         
     }
 
-     private class Wave extends DrawableElement
+    private class Wave extends DrawableElement
     {
         /**fields time is continous while playing, gameMode(1=playing,
          * 2=dead, 3=paused. spawntime keeps a countdown until next spawn,
@@ -603,31 +520,19 @@ public class Tanks
             super.loadImage();
             
             //actionlistener calls spawn every 2 seconds
-            ActionListener z = new ActionListener()
-            {
-
+            ActionListener z = new ActionListener() {
                 @Override
-                public void actionPerformed(ActionEvent e) 
-                {
-                    if(gameMode == 1)
-                    {
+                public void actionPerformed(ActionEvent e) {
+                    if(gameMode == 1) {
                         spawnZombie();
                     }
-                    
                 }
                 
             };
             
-            ActionListener ta = new ActionListener()
-            {
-
-                @Override
-                public void actionPerformed(ActionEvent e) 
-                {
-                    if(gameMode ==1)
-                       spawnTank();
-                }
-                
+            ActionListener ta = e -> {
+                if(gameMode ==1)
+                   spawnTank();
             };
             
             //action listener increments time
@@ -636,33 +541,26 @@ public class Tanks
             spawnZombie.start();
             ActionListener t = new ActionListener()
             {
-
                 @Override
-                public void actionPerformed(ActionEvent e) 
-                {
-                    if(gameMode==1)
-                    {
+                public void actionPerformed(ActionEvent e) {
+                    if(gameMode==1) {
                         timeCount++;
                     }
                 }
-                
             };
             time = new Timer(1000,t);
             time.start();
         }
-        public void setGameMode(int newGameMode)
-        {
+        public void setGameMode(int newGameMode) {
             gameMode = newGameMode;
-            if(gameMode == 2)
-            {
+            if(gameMode == 2) {
                 //Player has died, ending the game
                 time.stop();
                 //move.stop();
                 spawnZombie.stop();
                 spawnTank.stop();
             }
-            else if(gameMode == 4)
-            {
+            else if(gameMode == 4) {
                 //Player has won
                 time.stop();
                 //move.stop();
@@ -670,17 +568,13 @@ public class Tanks
                 spawnTank.stop();
             }
         }
-        
-        
         //spawn method checks if spawn timer ==0 and if so then spawns an 
         //enemy
-        public void spawnTank()
-        {
+        public void spawnTank() {
            enemy.add(new Tank());
            spawnedTanks++;
         }
-        public void spawnZombie()
-        {
+        public void spawnZombie() {
             enemy.add(new Zombie());
             spawnedZombies++;
         }
@@ -740,7 +634,6 @@ public class Tanks
                         if(kills == 60)
                         {
                             //Game over
-                            
                         }
                         break;
                 }
@@ -753,6 +646,10 @@ public class Tanks
             kills = 0;
             spawnTank.setDelay(4000);
         }
+    }
+    //Main method
+    public static void main(String[] arguments) {
+        Tanks game = new Tanks();
     }
 }
 
