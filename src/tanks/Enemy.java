@@ -6,7 +6,6 @@
 */
 package tanks;
 
-import javax.swing.JFrame;
 
 
 public abstract class Enemy extends Living
