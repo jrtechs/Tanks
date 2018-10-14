@@ -17,18 +17,6 @@ public class Living extends RotationalElement
         health=0;
         isAlive=true;
     }
-    public void setHealth(int holdH)
-    {
-        health=holdH;
-    }
-    public void setAlive(boolean holdA)
-    {
-        isAlive=holdA;
-    }
-    public int getHealth()
-    {
-        return health;
-    }
     public boolean getAlive()
     {
         return isAlive;
@@ -41,8 +29,7 @@ public class Living extends RotationalElement
     public void takeDamage()
     {
         health-=10;
-        if(health<=0)
-        {
+        if(health<=0) {
             isAlive=false;
         }
     }

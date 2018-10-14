@@ -29,7 +29,6 @@ public class Tanks
     
     private Timer move;
     private KeyListener key;
-    
     //game elements
     private ArrayList<Bullet> bullets;
     private Player p;
@@ -39,13 +38,10 @@ public class Tanks
     //constructor
     public Tanks()
     {
-        
-    
         frame=new JFrame("Tanks project");
         frame.setSize(fwidth,fheight + 150);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
         newGame();
         
         key=new KeyListener() {
@@ -93,7 +89,6 @@ public class Tanks
                 for(Bullet b: bullets) {
                     b.draw(g);
                 }
-                
                 for(Enemy en: enemy) {
                     en.draw(g);
                 }
@@ -105,8 +100,9 @@ public class Tanks
                 //Wave
                 g.setColor(Color.WHITE);
                 g.setFont(new Font("Arial" , 1, 25));
-                g.drawString("Wave: " + wave.waveNum + "     Ammo: "+ p.ammo + "     Kills: " + wave.kills +"     Health: " + p.health + "     Time: " + wave.timeCount, 50, fheight + 50);
-           
+                g.drawString("Wave: " + wave.waveNum + "     Ammo: "+ p.ammo +
+                        "     Kills: " + wave.kills +"     Health: " + p.health +
+                        "     Time: " + wave.timeCount, 50, fheight + 50);
                 //Pausing the game
                 if(wave.gameMode == 3) {
                     g.setColor(Color.WHITE);
@@ -161,11 +157,7 @@ public class Tanks
         p = new Player();
         wave = new Wave();
     }
-    
 
-    /*
-        Sub-classes that require the fields in tanks
-    */
 
     /**
      * the player class which extends the living class
@@ -179,17 +171,14 @@ public class Tanks
         private boolean up,down,left,right, rleft, rRight;
         private int ammo=10;
         private boolean shoot;
-            ActionListener coolDown = new ActionListener()
-            {
+            ActionListener coolDown = new ActionListener() {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if(shoot==false)
-                    {
+                    if(shoot==false) {
                         shoot=true;
                     }
                 }
-                
             };
             Timer time=new Timer(300,coolDown);
         
@@ -202,8 +191,7 @@ public class Tanks
             t=new Turret(this);
             
             speed = 5;
-            
-            
+
             health = 100;
             this.imageLocation = "player.png";
             super.loadImage();
@@ -211,51 +199,39 @@ public class Tanks
             height = 50;
         }
         
-         void move()
-        {
-            if(rleft)
-            {
+         void move() {
+            if(rleft) {
                 t.rotate(-1);
             }
-            if(rRight)
-            {
+            if(rRight) {
                 t.rotate(1);
             }
-            if(up==true)
-            {
-                
+            if(up==true) {
                super.move(-1);
                t.move(-1);
             }
-            if(down==true)
-            {
+            if(down==true) {
                 t.move(1);
                 super.move(1);
             }
-            if(left==true)
-            {
+            if(left==true) {
                 super.direction -=5;
                 t.rotate(-1);
             }
-            if(right==true)
-            {
+            if(right==true) {
                 super.direction+=5;
                 t.rotate(1);
             }
-            if(y<=0)
-            { 
+            if(y<=0) {
                y+=speed;
             }
-            else if(x<=0)
-            { 
+            else if(x<=0) {
                 x+=speed;
             }
-            else if(x>=fwidth-width)
-            {
+            else if(x>=fwidth-width) {
                 x-=speed;
             }
-            else if(y>=fheight-height)
-            {
+            else if(y>=fheight-height) {
                 y-=speed;
             }
             t.x = x;
@@ -294,8 +270,7 @@ public class Tanks
                 }
             }
         }
-        void shoot()
-        {
+        void shoot() {
             if(ammo>0) {
                 bullets.add(new Bullet (t));
                 ammo--;
@@ -314,11 +289,9 @@ public class Tanks
      * the move method checks to see if it collides with the player
      * if so it removes itself from the arraylist in tanks and deducts damage
     */
-    private class Zombie extends Enemy
-    {
+    private class Zombie extends Enemy {
         //constructor instanciated fields
-        public Zombie()
-        {
+        public Zombie() {
             super();
             spawn(fwidth, fheight);
             width = 30;
