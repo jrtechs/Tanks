@@ -181,24 +181,24 @@ public class Tanks
                 }
             };
             Timer time=new Timer(300,coolDown);
-        
-        
+
+
         public Player()
         {
             x = frame.getWidth()/2;
             y = frame.getHeight()/2;
             time.start();
             t=new Turret(this);
-            
+
             speed = 5;
 
             health = 100;
-            this.imageLocation = "player.png";
+            this.imageLocation = "assets\\player.png";
             super.loadImage();
             width = 50;
             height = 50;
         }
-        
+
          void move() {
             if(rleft) {
                 t.rotate(-1);
@@ -299,7 +299,7 @@ public class Tanks
             health = 10;
             isAlive=true;
             speed = 3;
-            imageLocation = "zombie.png";
+            imageLocation = "assets\\zombie.png";
             super.loadImage();
         }
         //uses super to move player if collision then removes zombie and player
@@ -336,7 +336,7 @@ public class Tanks
             y = e.y + 12;
             direction = e.direction;
             speed = 10;
-            imageLocation = "bullet.png";
+            imageLocation = "assets\bullet.png";
             super.loadImage();
         }
 
@@ -398,7 +398,7 @@ public class Tanks
             y = e.y;
             direction = e.direction;
             speed = 10;
-            imageLocation = "turret.png";
+            imageLocation = "assets\\turret.png";
             super.loadImage();
         }
 
@@ -425,11 +425,11 @@ public class Tanks
             health = 20;
             isAlive=true;
             speed = 2;
-            imageLocation = "enemyTank.png";
+            imageLocation = "assets\\enemyTank.png";
             super.loadImage();
             t = new Turret(this);
             
-            t.imageLocation = "enemyTurret.png";
+            t.imageLocation = "assets\\enemyTurret.png";
             t.loadImage();
             
             al = e -> {
@@ -493,14 +493,10 @@ public class Tanks
             super.loadImage();
             
             //actionlistener calls spawn every 2 seconds
-            ActionListener z = new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    if(gameMode == 1) {
-                        spawnZombie();
-                    }
+            ActionListener z = e -> {
+                if(gameMode == 1) {
+                    spawnZombie();
                 }
-                
             };
             
             ActionListener ta = e -> {
@@ -512,13 +508,9 @@ public class Tanks
             spawnTank = new Timer(2000,ta);
             spawnZombie = new Timer(2000, z);
             spawnZombie.start();
-            ActionListener t = new ActionListener()
-            {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    if(gameMode==1) {
-                        timeCount++;
-                    }
+            ActionListener t = e -> {
+                if(gameMode==1) {
+                    timeCount++;
                 }
             };
             time = new Timer(1000,t);
@@ -551,19 +543,15 @@ public class Tanks
             enemy.add(new Zombie());
             spawnedZombies++;
         }
-        public void waveCheck()
-        {
-            if(gameMode == 1)
-            {
-                switch(waveNum)
-                {
-                    case 1:
+        public void waveCheck() {
+            if(gameMode == 1) {
+                switch(waveNum) {
+                    case 1: case 2: case 4:
                         if(kills == 15) {
                             changeWave();
-                        }
-                        break;
-                    case 2:
-                        if(kills == 20) {
+                        }else if(kills == 20) {
+                            changeWave();
+                        }else if(kills == 32) {
                             changeWave();
                         }
                         break;
@@ -573,39 +561,21 @@ public class Tanks
                             changeWave();
                         }
                         break;
-                    case 4:
-                        if(kills == 32) {
-                            changeWave();
-                        }
-                        break;
-                    case 5:
+                    case 5: case 6: case 7: case 8: case 9:
                         if(kills == 33) {
                             changeWave();
-                        }
-                        break;
-                    case 6:
-                        if(kills == 35) {
+                        } else if(kills == 35) {
                             changeWave();
-                        }
-                        break;   
-                    case 7:
-                        if(kills == 37) {
+                        }else if(kills == 37) {
                             changeWave();
-                        }
-                        break;   
-                     case 8:
-                        if(kills == 40) {
+                        } else if(kills == 40) {
                             changeWave();
-                        }
-                        break;   
-                    case 9:
-                        if(kills == 49) {
+                        } else if(kills == 49) {
                             changeWave();
                         }
                         break;
                     case 10:
-                        if(kills == 60)
-                        {
+                        if(kills == 60) {
                             //Game over
                         }
                         break;
@@ -619,10 +589,6 @@ public class Tanks
             kills = 0;
             spawnTank.setDelay(4000);
         }
-    }
-    //Main method
-    public static void main(String[] arguments) {
-        Tanks game = new Tanks();
     }
 }
 
